@@ -11,7 +11,7 @@ const PostList = ({posts}: PostListProps) => {
         <div className="container mx-auto px-4 max-w-3xl">
             <ol className={"flex flex-col gap-2"}>
                 {posts.map(post=>(
-                    <PostItem post={post} />
+                    <PostItem key={post.id} post={post} />
                 ))}
             </ol>
         </div>

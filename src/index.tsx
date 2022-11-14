@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import {Provider} from "react-redux";
 import {setupStore} from "./store/store";
+import PostPage from "./pages/PostPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,7 +23,10 @@ root.render(
   <React.StrictMode>
       <Provider store={store}>
           <Router>
-              <App />
+              <Switch>
+                  <Route exact path="/" component={App}/>
+                  <Route path="/post/:id" component={PostPage}/>
+              </Switch>
           </Router>
       </Provider>
   </React.StrictMode>

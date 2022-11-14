@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {postAPI} from "./store/news/PostService";
@@ -8,21 +8,21 @@ import {ApiService} from "./API/ApiService";
 import {fetchPosts} from "./store/redusers/ActionCreators";
 import PostList from "./components/PostList";
 
-
 function App() {
 
-  // const {data: IDs} = postAPI.useFetchNewPostIDsQuery(100, {
-  //   pollingInterval: 60000
-  // })
-
-  const ids = [33591228, 33591224, 33591204, 33591196, 33591170, 33591149, 33591143, 33591140, 33591117]
   const dispatch = useAppDispatch()
   const {posts, isLoading, error} = useAppSelector(state=>state.postReducer)
+    const [update, setUpdate] = useState<boolean>(true)
 
-  useEffect(()=>{
-    dispatch(fetchPosts(5))
-      },
-      [])
+  useEffect(()=> {
+      dispatch(fetchPosts(5))
+      const interval = setInterval(()=>{
+          dispatch(fetchPosts(5))
+      }, 60000)
+      return ()=>{
+          clearInterval(interval)
+      }
+  }, [update])
 
 
 
@@ -31,6 +31,7 @@ function App() {
   return (
     <div className="App">
       <h1>Hello World!</h1>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{setUpdate(!update)}}>Refresh</button>
       {isLoading && <h1>Идет загрузка</h1>}
       <PostList posts={posts}/>
     </div>
