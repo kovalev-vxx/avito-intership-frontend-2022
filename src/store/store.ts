@@ -1,8 +1,11 @@
 import {combineReducers, configureStore, createStore} from "@reduxjs/toolkit";
 import {postAPI} from "./news/PostService";
+import postReducer from "./redusers/PostSlice"
+
 
 const rootReducer = combineReducers({
-    [postAPI.reducerPath]: postAPI.reducer
+    [postAPI.reducerPath]: postAPI.reducer,
+    postReducer
 })
 
 export const setupStore = () => {
