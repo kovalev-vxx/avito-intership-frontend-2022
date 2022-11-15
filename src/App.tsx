@@ -9,33 +9,30 @@ import {fetchPosts} from "./store/redusers/ActionCreators";
 import PostList from "./components/PostList";
 
 function App() {
-
-  const dispatch = useAppDispatch()
-  const {posts, isLoading, error} = useAppSelector(state=>state.postReducer)
-    const [update, setUpdate] = useState<boolean>(true)
-
-  useEffect(()=> {
-      dispatch(fetchPosts(5))
-      const interval = setInterval(()=>{
-          dispatch(fetchPosts(5))
-      }, 60000)
-      return ()=>{
-          clearInterval(interval)
-      }
-  }, [update])
+    const [darkMode, setDarkMode] = useState<boolean>(false)
 
 
 
+    useEffect(()=>{
+        const body = document.getElementsByTagName("body")[0]
+        if(darkMode){
+            document.documentElement.classList.add("dark")
+            body.classList.add("dark:bg-dark")
+        } else {
+            document.documentElement.classList.remove("dark")
+            body.classList.add("bg-light")
+        }
+    },[darkMode])
 
 
-  return (
-    <div className="App">
-      <h1>Hello World!</h1>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{setUpdate(!update)}}>Refresh</button>
-      {isLoading && <h1>Идет загрузка</h1>}
-      <PostList posts={posts}/>
-    </div>
-  );
+    
+    return (
+        <div className="App container mx-auto flex flex-col items-center">
+            <button onClick={()=>{setDarkMode(!darkMode)}}>{darkMode ? "Turn on light": "Turn on dark"}</button>
+            {/*<h1 className="text-3xl text-center">Welcome</h1>*/}
+            <PostList/>
+      </div>
+    );
 }
 
 export default App;

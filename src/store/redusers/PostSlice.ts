@@ -32,4 +32,4 @@ export const postSlice = createSlice({
     }
 })
 
-export default postSlice.reducer;
+export const postReducer = postSlice.reducer
