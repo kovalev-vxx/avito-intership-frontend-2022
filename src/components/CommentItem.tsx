@@ -1,21 +1,47 @@
 import {IComment} from "../models/IComment";
-import React from 'react';
-import parse from "html-react-parser";
+import React, {useEffect, useRef, useState} from 'react';
+import parse, {Comment} from "html-react-parser";
 import {deltaTime} from "../utils/deltaTime";
+import Item from "./Item";
+import {ApiService} from "../API/ApiService";
 
 interface CommentItem {
     comment: IComment
-    buttonAction: ()=>void;
 }
 
-const CommentItem = ({comment, buttonAction}: CommentItem) => {
+
+const CommentItem = ({comment}: CommentItem) => {
+    const [showAnswers, setShowAnswers] = useState<boolean>(false)
+    const [answers, setAnswers] = useState<IComment[]>()
+
+    useEffect(()=>{
+        const fetchAnswers = async() => {
+            const _answers = await ApiService.getComments(comment.kids)
+            setAnswers(_answers)
+        }
+        if(showAnswers){
+            fetchAnswers()
+        } else {
+            setAnswers([])
+        }
+    }, [showAnswers])
+
     return (
-        <div className="border-2 rounded-sm flex flex-col dark:bg-darkElement bg-lightElement">
+        <Item>
             <b>{comment.by}</b>
-            <span>{parse(`${comment.text}`)}</span>
+            <span id="comment-text">{parse(`${comment.text}`)}</span>
             <span>{deltaTime(comment.time)}</span>
-            {buttonAction && <button onClick={buttonAction}>Show Answers</button>}
-        </div>
+            {
+                comment?.kids && <button onClick={()=>{setShowAnswers(!showAnswers)}}>{showAnswers ? "Hide" : "Show Answers"}</button>
+            }
+
+            {
+                answers?.length ? answers.map(com=>{
+                    return <CommentItem comment={com}/>
+                }) : null
+            }
+
+        </Item>
     );
 };
 

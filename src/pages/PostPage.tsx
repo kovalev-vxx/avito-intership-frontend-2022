@@ -2,14 +2,15 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 import { RouteComponentProps } from 'react-router-dom';
-import {ApiService} from "../API/ApiService";
-import {commentSlice} from "../store/redusers/CommentSlice";
 import {fetchComments} from "../store/redusers/ActionCreators";
-import parse from "html-react-parser"
-import {IComment} from "../models/IComment";
-import CommentItem from "../components/CommentItem";
-import PostItem from "../components/PostItem";
 import CommentWithAnswers from "../components/CommentWithAnswers";
+import AppButton from "../components/AppButton";
+import {IoIosArrowBack} from "react-icons/io"
+import PostItem from "../components/PostItem";
+import ReadLink from "../components/ReadLink";
+import SortSelector from "../components/SortSelector";
+import {BarLoader} from "react-spinners";
+import {AiOutlineReload} from "react-icons/ai";
 
 interface PostPageProps{
     history: RouteComponentProps["history"]
@@ -40,13 +41,12 @@ const PostPage = ({history}: PostPageProps) => {
     },[comments])
 
     return (
-        <div>
-            <h1>{isCommentsLoading ? "0" : "1"}</h1>
-            <h1>{comments.length}</h1>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{history.goBack()}}>Go back</button>
-            <h1>{post?.title}</h1>
-            <br/>
-            <br/>
+        <div className="container mx-auto px-4 max-w-3xl flex flex-col gap-2">
+            <div className="flex justify-between items-center h-12">
+                <AppButton onClick={()=>{history.goBack()}}><IoIosArrowBack/></AppButton>
+                {post?.url && <ReadLink href={post.url}/>}
+            </div>
+            {post && <PostItem post={post}/>}
             <div className="container mx-auto px-4 max-w-3xl">
                 <ol className={"flex flex-col gap-2"}>
                     {clearComments.map((e)=>(

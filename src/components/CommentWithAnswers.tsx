@@ -27,7 +27,7 @@ const CommentWithAnswers = ({comment}: CommentWithAnswers) => {
 
     return (
         <>
-            <CommentItem comment={comment} buttonAction={showAnswersButton}/>
+            <CommentItem comment={comment}/>
             {sortedComments && sortedComments.map(answer=>{
                 if(answer !== comment){
                     return <CommentAnswerItem  comment={answer}/>
