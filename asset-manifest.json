@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/avito-intership-frontend-2022/static/css/main.de3d8829.css",
+    "main.js": "/avito-intership-frontend-2022/static/js/main.54b10773.js",
+    "index.html": "/avito-intership-frontend-2022/index.html",
+    "main.de3d8829.css.map": "/avito-intership-frontend-2022/static/css/main.de3d8829.css.map",
+    "main.54b10773.js.map": "/avito-intership-frontend-2022/static/js/main.54b10773.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.de3d8829.css",
+    "static/js/main.54b10773.js"
+  ]
+}
