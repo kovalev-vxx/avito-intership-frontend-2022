@@ -50,7 +50,10 @@ const PostPage:FC<PostPageProps> = ({history}) => {
             {error ? <><h1 className="font-bold text-red-500 text-center">News not found</h1></> :
                     <>
                         {post && <PostItem post={post}/>}
-                        {post && <CommentsList updateFunc={fetchPost} commentsIDs={post.kids}/>}
+                        {post?.kids ? <CommentsList updateFunc={fetchPost} commentsIDs={post.kids}/> :
+                            <>
+                                <h1 className="text-lightMutedText dark:text-darkMutedText text-center">No comments</h1>
+                            </>}
                     </>
             }
 

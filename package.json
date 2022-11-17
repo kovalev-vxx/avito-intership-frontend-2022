@@ -1,7 +1,7 @@
 {
   "name": "avito-intership-frontend-2022",
   "version": "0.1.0",
-  "homepage": "https://kovalev-vxx.github.io/avito-intership-frontend-2022",
+  "homepage": "/avito-intership-frontend-2022/#",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "yarn run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

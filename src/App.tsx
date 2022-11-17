@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter, Route, Switch} from "react-router-dom";
 import PostPage from "./pages/PostPage";
 import MainPage from "./pages/MainPage";
 import {ThemeContext} from "./contexts/ThemeContext";
@@ -28,12 +28,12 @@ function App() {
     
     return (
         <ThemeContext.Provider value={{darkMode, setDarkMode}}>
-            <Router>
+            <HashRouter>
                 <Switch>
                     <Route exact path="/" component={MainPage}/>
                     <Route path="/post/:id" component={PostPage}/>
                 </Switch>
-            </Router>
+            </HashRouter>
         </ThemeContext.Provider>
     );
 }
