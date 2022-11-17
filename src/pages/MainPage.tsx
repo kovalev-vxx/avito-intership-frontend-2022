@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 import PostsList from "../components/lists/PostsList";
 import BasePage from "./BasePage";
 
-const MainPage = () => {
+const MainPage:FC = () => {
     return (
         <BasePage>
             <PostsList/>

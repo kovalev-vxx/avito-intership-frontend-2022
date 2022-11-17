@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useAppSelector} from "../hooks/redux";
 import { RouteComponentProps } from 'react-router-dom';
@@ -11,12 +11,12 @@ import {IPost} from "../models/IPost";
 import {ApiService} from "../API/ApiService";
 import BasePage from "./BasePage";
 
-interface PostPageProps{
+type PostPageProps = {
     history: RouteComponentProps["history"]
 }
 
 
-const PostPage = ({history}: PostPageProps) => {
+const PostPage:FC<PostPageProps> = ({history}) => {
     const {posts} = useAppSelector(state=>state.postReducer)
     const {id} =  useParams<{id?: string}>()
     const [post, setPost] = useState<IPost>()

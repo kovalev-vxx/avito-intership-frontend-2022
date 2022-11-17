@@ -27,18 +27,21 @@ const CommentsList:FC<CommentsListProps> = ({commentsIDs, updateFunc}) => {
 
     return (
         <>
-            <div className="flex justify-between text-center items-center h-12">
-                <span className="flex gap-1 items-center dark:text-cyan">{isLoading ? <>...</> : <><VscCommentDiscussion/>{comments.length}</>}</span>
-                <span>{!isLoading && <AppButton onClick={()=>{updateFunc()}}><AiOutlineReload size={"25"}/></AppButton>}</span>
-            </div>
+            {
+                error ? <><h1 className="font-bold text-red-500 text-center">Comments error</h1></>  :
+                    <>
+                        <div className="flex justify-between text-center items-center h-12">
+                            <span className="flex gap-1 items-center dark:text-cyan">{isLoading ? <>...</> : <><VscCommentDiscussion/>{comments.length}</>}</span>
+                            <span>{!isLoading && <AppButton onClick={()=>{updateFunc()}}><AiOutlineReload size={"25"}/></AppButton>}</span>
+                        </div>
 
-            {isLoading ? <span className="flex justify-center"><BarLoader color={"#06b6d4"} loading={isLoading}/></span> : <div className="flex flex-col gap-2">
-                {sortedComments.map(e=>(
-                    <CommentItem key={e.id} comment={e} level={0}/>
-                ))}
-            </div>}
-
-
+                        {isLoading ? <span className="flex justify-center"><BarLoader color={"#06b6d4"} loading={isLoading}/></span> : <div className="flex flex-col gap-2">
+                            {sortedComments.map(e=>(
+                                <CommentItem key={e.id} comment={e} level={0}/>
+                            ))}
+                        </div>}
+                    </>
+            }
         </>
 
     );

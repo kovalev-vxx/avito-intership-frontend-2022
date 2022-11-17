@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Dispatch, FC, FormEvent, SetStateAction} from 'react';
+import React, {ChangeEvent, Dispatch, FC, SetStateAction} from 'react';
 import {ESortBy} from "../../models/ESortBy";
 
 type SortSelectorProps = {

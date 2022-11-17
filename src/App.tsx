@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import PostPage from "./pages/PostPage";
 import MainPage from "./pages/MainPage";

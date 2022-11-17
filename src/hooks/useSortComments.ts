@@ -14,9 +14,5 @@ export const useSortComments = (comments:IComment[], sortBy:ESortBy) => {
             default:
                 return _comments
         }
-        // if(comments){
-        //
-        // }
-        // return []
     }, [comments, sortBy]);
 }
