@@ -3,7 +3,7 @@ export const deltaTime = (unixTime:number) => {
 
     switch(true){
         case(seconds < 60):
-            return `${seconds} seconds ago`
+            return `less than a minute`
         case(seconds < 3600):
             return `${Math.floor(seconds/60)} minutes ago`
         case(seconds < 3600*24):

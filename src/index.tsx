@@ -23,12 +23,7 @@ const store = setupStore();
 root.render(
   <React.StrictMode>
       <Provider store={store}>
-          <Router>
-              <Switch>
-                  <Route exact path="/" component={App}/>
-                  <Route path="/post/:id" component={PostPage}/>
-              </Switch>
-          </Router>
+          <App/>
       </Provider>
   </React.StrictMode>
 );

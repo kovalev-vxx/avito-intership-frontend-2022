@@ -1,7 +1,6 @@
 import {AppDispatch} from "../store";
 import {postSlice} from "./PostSlice";
 import {ApiService} from "../../API/ApiService";
-import {memo} from "react";
 import {IPost} from "../../models/IPost";
 import {commentSlice} from "./CommentSlice";
 

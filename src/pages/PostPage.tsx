@@ -1,16 +1,15 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
+import {useAppSelector} from "../hooks/redux";
 import { RouteComponentProps } from 'react-router-dom';
-import {fetchComments} from "../store/redusers/ActionCreators";
-import CommentWithAnswers from "../components/CommentWithAnswers";
-import AppButton from "../components/AppButton";
+import AppButton from "../components/buttons/AppButton";
 import {IoIosArrowBack} from "react-icons/io"
-import PostItem from "../components/PostItem";
-import ReadLink from "../components/ReadLink";
-import SortSelector from "../components/SortSelector";
-import {BarLoader} from "react-spinners";
-import {AiOutlineReload} from "react-icons/ai";
+import PostItem from "../components/items/PostItem";
+import ReadLink from "../components/buttons/ReadLink";
+import CommentsList from "../components/lists/CommentsList";
+import {IPost} from "../models/IPost";
+import {ApiService} from "../API/ApiService";
+import BasePage from "./BasePage";
 
 interface PostPageProps{
     history: RouteComponentProps["history"]
@@ -18,43 +17,44 @@ interface PostPageProps{
 
 
 const PostPage = ({history}: PostPageProps) => {
-    const dispatch = useAppDispatch()
-    const {posts, isLoading, error} = useAppSelector(state=>state.postReducer)
+    const {posts} = useAppSelector(state=>state.postReducer)
     const {id} =  useParams<{id?: string}>()
-    const post = useMemo(()=>{
-        return posts.find(e=>(e.id.toString()===id))
-    },[])
-    const {comments, isLoading: isCommentsLoading, error:commentsError} = useAppSelector(state => state.commentReducer)
-    const [applys, setApplys] = useState()
+    const [post, setPost] = useState<IPost>()
+    const [error, setError] = useState<string>("")
+
+    useMemo(()=>{
+        setPost(posts.find(e=>(e.id.toString()===id)))
+    },[posts, id])
+
+    const fetchPost = async () => {
+        try {
+            setPost(await ApiService.getPost(Number(id)))
+        } catch (e) {
+            setError("News not found")
+        }
+
+    }
 
     useEffect(()=>{
-        post && dispatch(fetchComments(post.kids))
-        return ()=>{
-            dispatch(fetchComments([]))
+        if(!post){
+            fetchPost()
         }
     },[post])
 
-    const clearComments = useMemo(()=>{
-        let _comments = comments.filter(e=>e.text)
-        _comments = _comments.sort((a,b)=>(a.time-b.time))
-        return _comments
-    },[comments])
-
     return (
-        <div className="container mx-auto px-4 max-w-3xl flex flex-col gap-2">
+        <BasePage>
             <div className="flex justify-between items-center h-12">
                 <AppButton onClick={()=>{history.goBack()}}><IoIosArrowBack/></AppButton>
                 {post?.url && <ReadLink href={post.url}/>}
             </div>
-            {post && <PostItem post={post}/>}
-            <div className="container mx-auto px-4 max-w-3xl">
-                <ol className={"flex flex-col gap-2"}>
-                    {clearComments.map((e)=>(
-                        <CommentWithAnswers comment={e}/>
-                    ))}
-                </ol>
-            </div>
-        </div>
+            {error ? <><h1 className="font-bold text-red-500 text-center">News not found</h1></> :
+                    <>
+                        {post && <PostItem post={post}/>}
+                        {post && <CommentsList updateFunc={fetchPost} commentsIDs={post.kids}/>}
+                    </>
+            }
+
+        </BasePage>
     );
 };
 

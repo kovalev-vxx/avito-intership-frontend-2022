@@ -1,11 +1,9 @@
-import {combineReducers, configureStore, createStore} from "@reduxjs/toolkit";
-import {postAPI} from "./news/PostService";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {postReducer} from "./redusers/PostSlice"
 import {commentReducer} from "./redusers/CommentSlice";
 
 
 const rootReducer = combineReducers({
-    [postAPI.reducerPath]: postAPI.reducer,
     postReducer,
     commentReducer
 })
@@ -13,8 +11,6 @@ const rootReducer = combineReducers({
 export const setupStore = () => {
     return configureStore({
         reducer:rootReducer,
-        middleware: (getDefaultMiddleware)=>
-            getDefaultMiddleware().concat(postAPI.middleware)
     })
 }
 

@@ -1,37 +1,41 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {postAPI} from "./store/news/PostService";
-import Post from "./Post";
-import {useAppDispatch, useAppSelector} from "./hooks/redux";
-import {ApiService} from "./API/ApiService";
-import {fetchPosts} from "./store/redusers/ActionCreators";
-import PostList from "./components/PostList";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import PostPage from "./pages/PostPage";
+import MainPage from "./pages/MainPage";
+import {ThemeContext} from "./contexts/ThemeContext";
 
 function App() {
-    const [darkMode, setDarkMode] = useState<boolean>(false)
-
-
+    const darkModeFromLocalStorage = useMemo(()=>{
+        const theme = localStorage.getItem("theme")
+        return theme === "dark";
+    },[])
+    const [darkMode, setDarkMode] = useState<boolean>(darkModeFromLocalStorage)
 
     useEffect(()=>{
         const body = document.getElementsByTagName("body")[0]
         if(darkMode){
             document.documentElement.classList.add("dark")
             body.classList.add("dark:bg-dark")
+            localStorage.setItem("theme", "dark")
+
         } else {
             document.documentElement.classList.remove("dark")
             body.classList.add("bg-light")
+            localStorage.setItem("theme", "light")
         }
     },[darkMode])
 
-
     
     return (
-        <div className="App container mx-auto flex flex-col items-center">
-            <button onClick={()=>{setDarkMode(!darkMode)}}>{darkMode ? "Turn on light": "Turn on dark"}</button>
-            {/*<h1 className="text-3xl text-center">Welcome</h1>*/}
-            <PostList/>
-      </div>
+        <ThemeContext.Provider value={{darkMode, setDarkMode}}>
+            <Router>
+                <Switch>
+                    <Route exact path="/" component={MainPage}/>
+                    <Route path="/post/:id" component={PostPage}/>
+                </Switch>
+            </Router>
+        </ThemeContext.Provider>
     );
 }
 
